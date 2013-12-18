@@ -4,7 +4,6 @@ Bundler.require
 
 module Calendar
   class App < Sinatra::Application
-    set :today, Time.now.strftime("%b %-d")
     Scraper.new("http://www.timeanddate.com/holidays/us").save if Time.now.strftime("%b %-d") == "Jan 1"
     set :holidays, YAML::load(File.open('./lib/holidays.yaml'))
 
@@ -19,7 +18,12 @@ module Calendar
       erb :answer
     end
 
+    get '/test' do
+      request.location
+    end
+
     get '/:event' do
+      location = request.location
       event = params[:event]
       @event = settings.holidays[event.to_s]
       if @event
