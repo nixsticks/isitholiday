@@ -6,6 +6,7 @@ module Calendar
   class App < Sinatra::Application
     Scraper.new("http://www.timeanddate.com/holidays/us").save if Time.now.strftime("%b %-d") == "Jan 1"
     set :holidays, YAML::load(File.open('./lib/holidays.yaml'))
+    Timezone::Configure.begin {|c| c.username = 'nixsticks'}
 
     get '/' do
       @holidays = settings.holidays
@@ -35,10 +36,6 @@ module Calendar
 
     helpers do
       def get_time
-        Timezone::Configure.begin do |c|
-          c.username = 'nixsticks'
-        end
-
         location = request.location
         lat = location.latitude
         long = location.longitude
