@@ -14,20 +14,17 @@ module Calendar
     end
 
     get '/birthday' do
-      @today = get_time
-
       birthday = Time.new(1987, 07, 31).strftime("%b %-d")
-      birthday == @today ? @answer = "YES!" : @answer = "NO."
+      birthday == get_time ? @answer = "YES!" : @answer = "NO."
       erb :answer
     end
 
     get '/:event' do
-      @today = get_time
       event = params[:event]
       @event = settings.holidays[event.to_s]
 
       if @event
-        @event == @today ? @answer = "YES!" : @answer = "NO."
+        @event == get_time ? @answer = "YES!" : @answer = "NO."
         erb :answer
       else
         erb :not_found
