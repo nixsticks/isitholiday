@@ -20,14 +20,14 @@ module Calendar
 
     get '/test' do
       location = request.location
-      lat = location.latitude
-      long = location.longitude
+      @lat = location.latitude
+      @long = location.longitude
 
       Timezone::Configure.begin do |c|
         c.username = 'nixsticks'
       end
 
-      timezone = Timezone::Zone.new :zone => 'America/New_York'
+      timezone = Timezone::Zone.new :latlon => [@lat, @long]
       @today = timezone.time(Time.now).strftime("%b %-d")
       erb :test
     end
