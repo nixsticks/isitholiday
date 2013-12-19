@@ -27,7 +27,7 @@ module Calendar
         c.username = 'nixsticks'
       end
 
-      timezone = Timezone::Zone.new :latlon => [lat, long]
+      timezone = Timezone::Zone.new :zone => 'America/New_York'
       @today = timezone.time(Time.now).strftime("%b %-d")
       erb :test
     end
