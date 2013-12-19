@@ -19,15 +19,36 @@ module Calendar
     end
 
     get '/test' do
-      request.location
+      location = request.location
+      lat = location.latitude
+      long = location.longitude
+
+      Timezone::Configure.begin do |c|
+        c.username = 'nixsticks'
+      end
+
+      timezone = Timezone::Zone.new :latlon => [lat, long]
+      @today = timezone.time(Time.now).strftime("%b %-d")
+      erb :test
     end
 
     get '/:event' do
       location = request.location
+      lat = location.latitude
+      long = location.longitude
+
+      Timezone::Configure.begin do |c|
+        c.username = 'nixsticks'
+      end
+
+      timezone = Timezone::Zone.new :latlon => [lat, long]
+      @today = timezone.time(Time.now).strftime("%b %-d")
+
+      location = request.location
       event = params[:event]
       @event = settings.holidays[event.to_s]
       if @event
-        @event == settings.today ? @answer = "YES!" : @answer = "NO."
+        @event == @today ? @answer = "YES!" : @answer = "NO."
         erb :answer
       else
         erb :not_found
