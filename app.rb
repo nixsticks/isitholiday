@@ -27,21 +27,21 @@ module Calendar
         c.username = 'nixsticks'
       end
 
-      # timezone = Timezone::Zone.new :latlon => [@lat, @long]
-      # @today = timezone.time(Time.now).strftime("%b %-d")
+      timezone = Timezone::Zone.new(:latlon => [@lat, @long])
+      @today = timezone.time(Time.now)
       erb :test
     end
 
     get '/:event' do
-      location = request.location
-      lat = location.latitude
-      long = location.longitude
-
       Timezone::Configure.begin do |c|
         c.username = 'nixsticks'
       end
 
-      timezone = Timezone::Zone.new :latlon => [lat, long]
+      location = request.location
+      lat = location.latitude
+      long = location.longitude
+
+      timezone = Timezone::Zone.new(:latlon => [lat, long])
       @today = timezone.time(Time.now).strftime("%b %-d")
 
       location = request.location
