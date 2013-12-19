@@ -13,36 +13,15 @@ module Calendar
     end
 
     get '/birthday' do
+      @today = get_time
+      
       birthday = Time.new(1987, 12, 18).strftime("%b %-d")
-      birthday == settings.today ? @answer = "YES!" : @answer = "NO."
+      birthday == @today ? @answer = "YES!" : @answer = "NO."
       erb :answer
     end
 
-    get '/test' do
-      location = request.location
-      lat = location.latitude
-      long = location.longitude
-
-      Timezone::Configure.begin do |c|
-        c.username = 'nixsticks'
-      end
-
-      timezone = Timezone::Zone.new(:latlon => [lat, long])
-      @today = timezone.time(Time.now)
-      erb :test
-    end
-
     get '/:event' do
-      Timezone::Configure.begin do |c|
-        c.username = 'nixsticks'
-      end
-
-      location = request.location
-      lat = location.latitude
-      long = location.longitude
-
-      timezone = Timezone::Zone.new(:latlon => [lat, long])
-      @today = timezone.time(Time.now).strftime("%b %-d")
+      @today = get_time
 
       location = request.location
       event = params[:event]
@@ -52,6 +31,21 @@ module Calendar
         erb :answer
       else
         erb :not_found
+      end
+    end
+
+    helpers do
+      def get_time
+        Timezone::Configure.begin do |c|
+          c.username = 'nixsticks'
+        end
+
+        location = request.location
+        lat = location.latitude
+        long = location.longitude
+
+        timezone = Timezone::Zone.new(:latlon => [lat, long])
+        timezone.time(Time.now).strftime("%b %-d")
       end
     end
   end
