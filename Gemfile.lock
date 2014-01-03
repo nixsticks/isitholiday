@@ -3,6 +3,8 @@ GEM
   specs:
     bond (0.4.3)
     geocoder (1.1.9)
+    haml (4.0.4)
+      tilt
     mini_portile (0.5.2)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
@@ -38,6 +40,7 @@ PLATFORMS
 
 DEPENDENCIES
   geocoder
+  haml
   nokogiri
   shotgun
   sinatra

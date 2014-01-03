@@ -1,0 +1,13 @@
+.title
+  %h1 IS IT...
+
+.list
+  .three.columns
+    %p 
+  .ten.columns
+    %ul
+      - @holidays.each do |holiday, date|
+        %li
+          %a{:href=>"#{holiday}"} #{holiday}
+  .three.columns
+    %p 

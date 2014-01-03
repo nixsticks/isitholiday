@@ -12,13 +12,13 @@ module Calendar
 
     get '/' do
       @holidays = settings.holidays
-      erb :index
+      haml :index
     end
 
     get '/birthday' do
       birthday = Time.new(1987, 07, 31).strftime("%b %-d")
       birthday == get_time ? @answer = "YES!" : @answer = "NO."
-      erb :answer
+      haml :answer
     end
 
     get '/:event' do
@@ -27,9 +27,9 @@ module Calendar
 
       if @event
         @event == get_time ? @answer = "YES!" : @answer = "NO."
-        erb :answer
+        haml :answer
       else
-        erb :not_found
+        haml :not_found
       end
     end
 
