@@ -2,9 +2,11 @@ require 'yaml'
 require 'bundler'
 Bundler.require
 
+require './lib/scraper'
+
 module Calendar
   class App < Sinatra::Application
-    Scraper.new("http://www.timeanddate.com/holidays/us").save if Time.now.strftime("%b %-d") == "Jan 1"
+    Scraper.new("http://www.timeanddate.com/holidays/us").save
     set :holidays, YAML::load(File.open('./lib/holidays.yaml'))
     Timezone::Configure.begin {|c| c.username = 'nixsticks'}
 
